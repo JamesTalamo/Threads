@@ -110,7 +110,7 @@ const UserProfile = () => {
         </div>
       </div>
       {/*Profile picture in here*/}
-      <div className='text-gray-500 py-[20px]'>Bio : {userInfo?.bio === "" ? <span>This user has not put any bio.</span> : userInfo?.bio}</div>
+      <div className='text-gray-500 py-[20px]'>Bio : {userInfo?.bio === "" ? <span>This user has not provided any bio.</span> : userInfo?.bio}</div>
       <div className='text-gray-500'>Joined {userInfo?.createdAt.split('-')[0]}</div>
 
 
