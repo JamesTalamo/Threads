@@ -40,6 +40,11 @@ export const updateUserProfile = async (req, res) => {
         let hashNewPassword = null
 
         if (password && newPassword) {
+
+            if (newPassword.length < 6) {
+                return res.status(400).json({ error: "Password must be 6 characters long." })
+            }
+
             let passwordMatchWithPrev = await bcrypt.compare(password, user.password)
             if (!passwordMatchWithPrev) return res.status(400).json({ error: 'Password does not match.' })
 

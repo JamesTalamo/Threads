@@ -2,8 +2,14 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 dotenv.config()
 import cors from 'cors'
+import { v2 as cloudinary } from 'cloudinary'
 
-
+//config cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
 //local imports
 import connectDB from './config/ConnectDB.js'
