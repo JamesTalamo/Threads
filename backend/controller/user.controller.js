@@ -55,6 +55,11 @@ export const updateUserProfile = async (req, res) => {
 
 
         if (profilePicture) {
+
+            if(authUser.profilePicture){
+                await cloudinary.uploader.destroy(authUser.profilePicture.split('/').pop().split('.')[0]) // will delete the old image in the cloudinary database also
+            }
+
             try {
                 const uploadResponse = await cloudinary.uploader.upload(profilePicture);
 
