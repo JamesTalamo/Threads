@@ -55,8 +55,15 @@ export const updateUserProfile = async (req, res) => {
 
 
         if (profilePicture) {
-            const uploadResponse = await cloudinary.uploader.upload(profilePicture);
-            user.profilePicture = uploadResponse.secure_url; 
+            try {
+                const uploadResponse = await cloudinary.uploader.upload(profilePicture);
+
+                user.profilePicture = uploadResponse.secure_url; // Save in data base
+
+            } catch (cloudinaryError) {
+                console.error("Cloudinary Upload Error:", cloudinaryError.message);
+                return res.status(500).json({ error: "Profile picture upload failed." });
+            }
         }
 
         // user.username = username || user.username
