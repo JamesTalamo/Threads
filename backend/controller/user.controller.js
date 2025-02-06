@@ -1,5 +1,6 @@
 import User from "../models/User.model.js"
 import bcrypt from 'bcrypt'
+import { v2 as cloudinary } from 'cloudinary'
 
 export const getUserPorfile = async (req, res) => {
 
@@ -20,7 +21,7 @@ export const getUserPorfile = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
 
-    const { username, password, newPassword, bio } = req.body
+    const { username, password, newPassword, bio, profilePicture } = req.body
 
 
     const authUser = req.user._id.toString()
@@ -53,6 +54,10 @@ export const updateUserProfile = async (req, res) => {
         }
 
 
+        if (profilePicture) {
+            const uploadResponse = await cloudinary.uploader.upload(profilePicture);
+            user.profilePicture = uploadResponse.secure_url; 
+        }
 
         // user.username = username || user.username
         user.password = hashNewPassword || user.password

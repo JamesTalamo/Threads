@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
-
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
+
+
 const UserProfile = () => {
-  console.log('I got visited again')
+  let [profileImg, setProfileImg] = useState("");
+  let profileImgRef = useRef(null);
 
   let navigate = useNavigate()
 
@@ -42,7 +44,8 @@ const UserProfile = () => {
     username: "",
     email: "",
     password: "",
-    bio: ""
+    bio: "",
+    profilePicture: ''
   });
 
   const { mutate: updateUser, isError, error } = useMutation({
@@ -80,7 +83,7 @@ const UserProfile = () => {
   }
 
   useEffect(() => {
-    refetch(); 
+    refetch();
   }, [username, refetch]);
 
   useEffect(() => {
@@ -90,7 +93,8 @@ const UserProfile = () => {
         username: userInfo.username || '',
         email: userInfo.email || '',
         password: '',
-        bio: userInfo.bio || ''
+        bio: userInfo.bio || '',
+        profilePicture: userInfo.profilePicture || ''
       }));
     }
   }, [userInfo]);
@@ -102,6 +106,18 @@ const UserProfile = () => {
       </div>
     )
   }
+
+  const handleImgChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProfileImg(reader.result);
+        changeUserData({ ...userData, profilePicture: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
 
 
@@ -117,6 +133,9 @@ const UserProfile = () => {
             userInfo?.profilePicture.length === 0 ? "/assets/common/noProfile.png" : userInfo?.profilePicture} />
         </div>
       </div>
+
+
+
       {/*Profile picture in here*/}
       <div className='text-gray-500 py-[20px]'>Bio : {userInfo?.bio === "" ? <span>This user has not provided any bio.</span> : userInfo?.bio}</div>
       <div className='text-gray-500'>Joined {userInfo?.createdAt.split('-')[0]}</div>
@@ -210,6 +229,21 @@ const UserProfile = () => {
                     value={userData.bio}
                     onChange={handleInputChange}
                   />
+                </label>
+
+                {/* For Profile Picture */}
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+
+                    <span className="label-text-alt">Profile Picture</span>
+                  </div>
+                  <input
+                    type="file"
+                    className="file-input file-input-bordered w-full max-w-xs"
+                    ref={profileImgRef}
+                    onChange={(e) => handleImgChange(e, "profileImg")}
+                  />
+
                 </label>
 
                 {isError ? <div className='text-red-500 text-center'>{error.message}</div> : <></>}
