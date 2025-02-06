@@ -10,6 +10,7 @@ import Profile from '../../../public/assets/Components/sidebar/profile.jsx'
 import Menu from '../../../public/assets/Components/sidebar/menu.jsx'
 import Logo from '../../../public/assets/Components/sidebar/logo.jsx'
 import { Link } from 'react-router-dom'
+import PostAreaComponent from './PostAreaComponent.jsx'
 
 const Sidebar = () => {
 
@@ -41,58 +42,58 @@ const Sidebar = () => {
 
     const { data: authUser } = useQuery({ queryKey: ["authUser"] })
 
-return (
-    <div className=' h-full w-[80px] fixed left-0 top-0 z-10 flex flex-col items-center justify-between'>
-        <Link
-            className='mt-[25%] flex items-center justify-center hover:scale-110 transition duration-300 hover:cursor-pointer'
-            to='/'
-        >
-            <Logo />
-        </Link>
-
-        <div className='flex flex-col items-center justify-around  h-[400px]'>
+    return (
+        <div className=' h-full w-[80px] fixed left-0 top-0 z-10 flex flex-col items-center justify-between'>
             <Link
+                className='mt-[25%] flex items-center justify-center hover:scale-110 transition duration-300 hover:cursor-pointer'
                 to='/'
             >
-                <Home />
+                <Logo />
             </Link>
 
-            <div>
-                <Search />
+            <div className='flex flex-col items-center justify-around  h-[400px]'>
+                <Link
+                    to='/'
+                >
+                    <Home />
+                </Link>
+
+                <div>
+                    <Search />
+                </div>
+
+                <div>
+                    <PostAreaComponent logo={<AddPost />} />
+                </div>
+
+                <div>
+                    <Notification />
+                </div>
+
+                <Link className='hover:cursor-pointer'
+                    to={`/profile/${authUser?.username}`}
+                >
+                    <Profile />
+                </Link>
+
+
+
             </div>
 
-            <div>
-                <AddPost />
+            <div className='w-full mb-[30%] flex items-center justify-center '>
+
+                <div className="dropdown dropdown-right dropdown-end">
+                    <div tabIndex={0} role="button" className="btn m-1"><Menu /></div>
+
+                    <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow outline outline-[1px] outline-[rgba(0,0,0,0.4)]">
+                        <li className='text-red-600 font-bold' onClick={handleLogout}><a>Logout</a></li>
+                    </ul>
+
+                </div>
+
             </div>
-
-            <div>
-                <Notification />
-            </div>
-
-            <Link className='hover:cursor-pointer'
-                to={`/profile/${authUser?.username}`}
-            >
-                <Profile />
-            </Link>
-
-
-
         </div>
-
-        <div className='w-full mb-[30%] flex items-center justify-center '>
-
-            <div className="dropdown dropdown-right dropdown-end">
-                <div tabIndex={0} role="button" className="btn m-1"><Menu /></div>
-
-                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow outline outline-[1px] outline-[rgba(0,0,0,0.4)]">
-                    <li className='text-red-600 font-bold' onClick={handleLogout}><a>Logout</a></li>
-                </ul>
-
-            </div>
-
-        </div>
-    </div>
-)
+    )
 }
 
 export default Sidebar

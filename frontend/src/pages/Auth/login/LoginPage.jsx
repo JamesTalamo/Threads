@@ -64,8 +64,8 @@ const LoginPage = () => {
         <div className='font-bold'>Log in with your account</div>
 
         <form type='submit' className='w-[100%]  flex items-center justify-center flex-col gap-4 pt-5' onSubmit={submitForm}>
-          <input type="text" placeholder="Username" class="input input-bordered w-full max-w-xs" name='username' onChange={handleInputChange} />
-          <input type="password" placeholder="Password" class="input input-bordered w-full max-w-xs" name='password' onChange={handleInputChange} />
+          <input type="text" placeholder="Username" class="input input-bordered w-full max-w-xs bg-white" name='username' onChange={handleInputChange} />
+          <input type="password" placeholder="Password" class="input input-bordered w-full max-w-xs bg-white" name='password' onChange={handleInputChange} />
           <button className="btn btn-neutral bg-black w-[97%]">{isLoading ? <div>Loading....</div> : <p>Login</p>}</button>
           {isError && <p className='text-red-500'>
             {error.message}
