@@ -1,11 +1,62 @@
 import React from 'react'
-import { useQuery } from 'react-query'
-
+import { useQuery, useMutation } from 'react-query'
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
 
 
 const PostAreaComponent = ({ logo }) => {
 
+    const [comment, setComment] = useState('')
+
     const { data: authUser } = useQuery({ queryKey: ["authUser"] })
+
+    const { mutate: createPost } = useMutation({
+        mutationFn: async () => {
+            try {
+                const res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/post/create`, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: comment }),
+                    credentials: 'include'
+                })
+
+                let data = await res.json()
+
+
+                if (!res.ok) throw new Error(data.error || 'Error in LoginPage.')
+
+            } catch (error) {
+                throw new Error(error.message)
+            }
+        },
+        onSuccess: () => {
+            toast.success('Post has been added.', {
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                }
+            });
+
+            document.getElementById('my_modal_2').close();
+
+
+        }
+    })
+
+    let handleInputChange = (e) => {
+        setComment(e.target.value)
+    }
+
+
+    let handleSubmit = (e) => {
+        e.preventDefault()
+        if (!comment) return
+        createPost()
+        setComment('');
+    }
 
     return (
         <div>
@@ -30,15 +81,26 @@ const PostAreaComponent = ({ logo }) => {
 
                     </div>
 
-                    <textarea
-                        className='w-[100%] h-[30vh] resize-none focus:outline-none'
-                        placeholder="What's on your mind?"
+                    <form onSubmit={handleSubmit}>
+                        <textarea
+                            className='w-[100%] h-[30vh] resize-none focus:outline-none'
+                            placeholder="What's on your mind?"
+                            onChange={handleInputChange}
+                            name='commentTextArea'
+                            value={comment}
+                        >
 
-                    >
+                        </textarea>
 
-                    </textarea>
+                        <button
+                            className="btn btn-neutral w-[100%]"
+                            type='submit'
+                        >
+                            Post
+                        </button>
+                    </form>
 
-                    <button className="btn btn-neutral w-[100%]">Post</button>
+
 
                 </div>
                 <form method="dialog" className="modal-backdrop">

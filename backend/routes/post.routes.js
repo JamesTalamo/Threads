@@ -3,7 +3,7 @@ const router = express.Router()
 import { createPost } from '../controller/post.controller.js'
 import { protectRoutes } from '../middleware/protectRoutes.js'
 
-router.get('/create', protectRoutes, createPost)
+router.post('/create', protectRoutes, createPost)
 
 
 export default router
