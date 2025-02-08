@@ -21,9 +21,10 @@ export const getUserPorfile = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
 
-    const { username, password, newPassword, bio, profilePicture } = req.body
+    const { username, password, newPassword, bio } = req.body
+    let profilePicture = req.body.profilePicture || null;
 
-
+    
     const authUser = req.user._id.toString()
     try {
         const user = await User.findById(authUser)
@@ -54,20 +55,21 @@ export const updateUserProfile = async (req, res) => {
         }
 
 
-        if (profilePicture) {
-            if(user?.profilePicture){
-                await cloudinary.uploader.destroy(user.profilePicture.split('/').pop().split('.')[0]) // will delete the old image in the cloudinary database also
+        if (profilePicture !== user.profilePicture) {
+            if (user?.profilePicture) {
+                await cloudinary.uploader.destroy(user.profilePicture.split('/').pop().split('.')[0]); // Delete old image
             }
 
             try {
                 const uploadResponse = await cloudinary.uploader.upload(profilePicture);
 
-                user.profilePicture = uploadResponse.secure_url; // Save in data base
+                user.profilePicture = uploadResponse.secure_url; // Save in database
 
             } catch (cloudinaryError) {
                 return res.status(500).json({ error: cloudinaryError.message });
             }
         }
+
 
         // user.username = username || user.username
         user.password = hashNewPassword || user.password

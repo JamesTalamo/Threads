@@ -39,14 +39,27 @@ const UserProfile = () => {
 
   })
 
-
   const [userData, changeUserData] = useState({
     username: "",
     email: "",
     password: "",
     bio: "",
-    profilePicture: ''
+    profilePicture: ""
   });
+
+  useEffect(() => {
+    if (userInfo) {
+      changeUserData((prevState) => ({
+        ...prevState,
+        username: userInfo.username || '',
+        email: userInfo.email || '',
+        password: '',
+        bio: userInfo.bio || '',
+        profilePicture: userInfo.profilePicture || ''
+      }));
+    }
+  }, [userInfo]);
+
 
   const { mutate: updateUser, isError, error } = useMutation({
     mutationFn: async () => {
@@ -74,39 +87,6 @@ const UserProfile = () => {
     })
   })
 
-  let handleInputChange = (e) => {
-    changeUserData({ ...userData, [e.target.name]: e.target.value })
-  }
-
-  let handleSubmit = () => {
-    updateUser()
-  }
-
-  useEffect(() => {
-    refetch();
-  }, [username, refetch]);
-
-  useEffect(() => {
-    if (userInfo) {
-      changeUserData((prevState) => ({
-        ...prevState,
-        username: userInfo.username || '',
-        email: userInfo.email || '',
-        password: '',
-        bio: userInfo.bio || '',
-        profilePicture: userInfo.profilePicture || ''
-      }));
-    }
-  }, [userInfo]);
-
-  if (isLoading) {
-    return (
-      <div className='w-screen h-dvh flex items-center justify-center'>
-        <span className="loading loading-dots loading-lg"></span>
-      </div>
-    )
-  }
-
   const handleImgChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -119,7 +99,26 @@ const UserProfile = () => {
     }
   };
 
+  let handleInputChange = (e) => {
+    changeUserData({ ...userData, [e.target.name]: e.target.value })
+  }
 
+  let handleSubmit = () => {
+    updateUser()
+  }
+
+  useEffect(() => {
+    refetch();
+  }, [username, refetch]);
+
+
+  if (isLoading) {
+    return (
+      <div className='w-screen h-dvh flex items-center justify-center'>
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    )
+  }
 
   return (
     // <div className='w-full h-dvh bg-red flex items-center justify-center'>{isError ? <div className='text-red-500'>{error.message}</div> : <div>{JSON.stringify(userInfo)}</div>}</div>
@@ -153,9 +152,8 @@ const UserProfile = () => {
                 className='w-full h-full flex gap-2 flex-col'
                 onSubmit={(e) => {
                   e.preventDefault()
-                  handleSubmit(JSON.stringify(userData))
+                  handleSubmit()
                 }}>
-
 
                 {/* For username */}
                 <label className="input input-bordered flex items-center gap-2">
