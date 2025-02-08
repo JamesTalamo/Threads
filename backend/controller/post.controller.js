@@ -40,3 +40,16 @@ export const deletePost = async (req, res) => {
         res.status(500).json({ error: 'Interanal Server Error.' })
     }
 }
+
+export const getAllPost = async (req, res) => {
+
+    let getAllPost = await Post.find({})
+        .sort({ createdAt: -1 })
+        .populate({
+            path: 'user'
+        })
+
+    if (getAllPost.length === 0) return res.status(200).json([])
+
+    res.status(200).json(getAllPost)
+}
