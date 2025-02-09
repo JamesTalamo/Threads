@@ -98,9 +98,6 @@ const GetAllPost = () => {
                         {/* Text Post */}
                         <div>{post.text}</div>
 
-                        <div>{post._id}</div>
-
-
                         {post.user._id === authUser?._id ?
                             <div className='absolute right-0 top-0'>
                                 <div className="dropdown dropdown-bottom dropdown-end ">
