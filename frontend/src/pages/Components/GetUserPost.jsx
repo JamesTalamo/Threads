@@ -11,7 +11,7 @@ const GetUserPost = ({ username }) => {
     const { data: authUser } = useQuery({ queryKey: ['authUser'] })
 
     const { data: getUserPost } = useQuery({
-        queryKey: ['userPost'],
+        queryKey: ['userPost', username],
         queryFn: async () => {
             try {
                 const res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/post/userPost/${username}`, {
@@ -32,7 +32,7 @@ const GetUserPost = ({ username }) => {
         }
     })
 
-    return (
+    return (    
         <div>
             {(getUserPost || []).map((post) => (
 
