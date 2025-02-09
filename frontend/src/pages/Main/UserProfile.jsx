@@ -122,7 +122,7 @@ const UserProfile = () => {
 
   return (
     // <div className='w-full h-dvh bg-red flex items-center justify-center'>{isError ? <div className='text-red-500'>{error.message}</div> : <div>{JSON.stringify(userInfo)}</div>}</div>
-    <div className='w-[700px] h-[900px] rounded-t-3xl border-gray-300 border-[1.5px] relative p-[2%]'>
+    <div className='w-[700px] h-[95vh] rounded-t-3xl border-gray-300 border-[1.5px] relative p-[2%]'>
       <div className='font-bold text-2xl text-black'>{userInfo?.username}</div>
       <div className='text-black'>{userInfo?.email}</div>
 
