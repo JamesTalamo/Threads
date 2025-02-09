@@ -35,8 +35,19 @@ export const createPost = async (req, res) => {
 export const deletePost = async (req, res) => {
     try {
 
+        let { id } = req.params
+
+        let user = req.user._id.toString()
+        let post = await Post.findById(id)
+
+        if (post.user.toString() !== user) return res.status(400).json({ error: 'You are not allowed to delete this' })
+
+        let postExist = await Post.findByIdAndDelete(id)
+        if (!postExist) return res.status(400).json({ error: 'Post doesnt exist.' })
+
+        res.status(200).json({ success: 'post deleted' })
+
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ error: 'Interanal Server Error.' })
     }
 }

@@ -1,10 +1,12 @@
 import React from 'react'
-import { useQuery, useMutation } from 'react-query'
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 
 const PostAreaComponent = ({ logo }) => {
+
+    let queryClient = useQueryClient()
 
     const [comment, setComment] = useState('')
 
@@ -41,7 +43,7 @@ const PostAreaComponent = ({ logo }) => {
             });
 
             document.getElementById('my_modal_2').close();
-
+            queryClient.invalidateQueries(['allPost'])
 
         }
     })
