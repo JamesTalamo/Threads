@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
+import GetUserPost from '../Components/GetUserPost.jsx';
+
 
 
 const UserProfile = () => {
@@ -122,7 +124,7 @@ const UserProfile = () => {
 
   return (
     // <div className='w-full h-dvh bg-red flex items-center justify-center'>{isError ? <div className='text-red-500'>{error.message}</div> : <div>{JSON.stringify(userInfo)}</div>}</div>
-    <div className='w-[40%] h-[95vh] rounded-t-3xl border-gray-300 border-[1.5px] relative p-[2%]'>
+    <div className='w-[40%] h-[auto] rounded-t-3xl border-gray-300 border-[1.5px] relative p-[2%] '>
       <div className='font-bold text-2xl text-black'>{userInfo?.username}</div>
       <div className='text-black'>{userInfo?.email}</div>
 
@@ -261,7 +263,9 @@ const UserProfile = () => {
         </div>
       </div> : ''}
 
-
+      {/* For future use */}
+      <div className='w-[100%] h-[200px] '></div>
+      <GetUserPost username={username} />
 
     </div>
   )

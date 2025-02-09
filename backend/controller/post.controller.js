@@ -53,14 +53,39 @@ export const deletePost = async (req, res) => {
 }
 
 export const getAllPost = async (req, res) => {
+    try {
 
-    let getAllPost = await Post.find({})
+        let getAllPost = await Post.find({})
+            .sort({ createdAt: -1 })
+            .populate({
+                path: 'user'
+            })
+
+        if (getAllPost.length === 0) return res.status(200).json([])
+
+        res.status(200).json(getAllPost)
+
+    } catch (error) {
+        res.status(500).json({ error: 'Interanal Server Error.' })
+    }
+}
+
+export const getUserPost = async (req, res) => {
+    let { username } = req.params
+
+    // let userPost = await Post.find(username)
+
+    // res.status(200).json(userPost)
+
+    const user = await User.findOne({ username })
+    if (!user) return res.status(400).json({ error: 'User not found.' })
+
+    const post = await Post.find({ user: user._id })
         .sort({ createdAt: -1 })
         .populate({
-            path: 'user'
+            path: 'user',
+            select: '-password'
         })
 
-    if (getAllPost.length === 0) return res.status(200).json([])
-
-    res.status(200).json(getAllPost)
+    res.status(200).json(post)
 }
