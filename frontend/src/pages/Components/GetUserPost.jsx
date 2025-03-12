@@ -1,15 +1,16 @@
 import React from 'react'
 
-import { useQuery } from 'react-query'
+import { useQuery, useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 import { format } from 'timeago.js'
+import toast from 'react-hot-toast'
 
 
 const GetUserPost = ({ username }) => {
 
     const { data: authUser } = useQuery({ queryKey: ['authUser'] })
 
-    const { data: getUserPost } = useQuery({
+    const { data: getUserPost, refetch } = useQuery({
         queryKey: ['userPost', username],
         queryFn: async () => {
             try {
@@ -30,6 +31,37 @@ const GetUserPost = ({ username }) => {
             }
         }
     })
+
+    const { mutate: deletePost } = useMutation({
+        mutationFn: async (id) => {
+            try {
+                let res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/post/delete/${id}`, {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    credentials: 'include'
+                })
+
+                let data = await res.json()
+
+                if (!res.ok) throw new Error(data.error || 'Logout Fetch Error.')
+            } catch (error) {
+                throw new Error(error.message)
+            }
+        },
+        onSuccess: () => {
+            toast.success('Post Deleted.', {
+                style: {
+                    borderRadius: '10px',
+                    background: '#333',
+                    color: '#fff',
+                }
+            }),
+                refetch();
+        }
+    })
+
 
     return (
         <div>
@@ -71,7 +103,7 @@ const GetUserPost = ({ username }) => {
                                     <div tabIndex={0} role="button" className="btn m-1">...</div>
                                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow border-[1.5px] border-gray-300">
                                         <li className='text-red-500'
-                                        // onClick={() => deletePost(post._id)}
+                                            onClick={() => deletePost(post._id)}
                                         ><a>Delete Post</a></li>
                                     </ul>
                                 </div>
@@ -84,7 +116,7 @@ const GetUserPost = ({ username }) => {
             ))}
 
 
-        </div>
+        </div >
     )
 }
 

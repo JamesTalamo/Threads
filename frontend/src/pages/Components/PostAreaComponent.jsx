@@ -44,6 +44,7 @@ const PostAreaComponent = ({ logo }) => {
 
             document.getElementById('my_modal_2').close();
             queryClient.invalidateQueries(['allPost'])
+            queryClient.invalidateQueries(['userPost'])
 
         }
     })
