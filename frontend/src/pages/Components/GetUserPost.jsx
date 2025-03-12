@@ -64,7 +64,7 @@ const GetUserPost = ({ username }) => {
 
 
     return (
-        <div>
+        <div >
             {(getUserPost || []).map((post) => (
 
                 <div key={post._id} className="border-b-2 border-gray-300 w-full flex items-stretch justify-between relative">
