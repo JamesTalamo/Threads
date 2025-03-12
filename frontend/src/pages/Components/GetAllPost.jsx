@@ -1,7 +1,7 @@
 import React from 'react'
-import { formatPostDate } from '../../utils/date.js'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
+import { format } from 'timeago.js'
 
 
 import { useMutation, useQuery } from 'react-query'
@@ -90,7 +90,7 @@ const GetAllPost = () => {
                             <div className="font-bold">
                                 {post.user.username}
                                 <span className="text-gray-500 font-normal pl-2">
-                                    {formatPostDate(post.createdAt)}
+                                    {format(post.createdAt)}
                                 </span>
                             </div>
                         </Link>

@@ -33,7 +33,6 @@ const LoginPage = () => {
       }
     },
     onSuccess: (() => {
-      console.log('logged in!')
       queryClient.invalidateQueries({ queryKey: ["authUser"] })
     })
   })

@@ -2,8 +2,7 @@ import React from 'react'
 
 import { useQuery } from 'react-query'
 import { Link } from 'react-router-dom'
-
-import { formatPostDate } from '../../utils/date.js'
+import { format } from 'timeago.js'
 
 
 const GetUserPost = ({ username }) => {
@@ -32,7 +31,7 @@ const GetUserPost = ({ username }) => {
         }
     })
 
-    return (    
+    return (
         <div>
             {(getUserPost || []).map((post) => (
 
@@ -58,7 +57,7 @@ const GetUserPost = ({ username }) => {
                             <div className="font-bold">
                                 {post.user.username}
                                 <span className="text-gray-500 font-normal pl-2">
-                                    {formatPostDate(post.createdAt)}
+                                    {format(post.createdAt)}
                                 </span>
                             </div>
                         </Link>
