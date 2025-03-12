@@ -2,15 +2,26 @@
 import { useQueryClient, useMutation, useQuery } from 'react-query'
 
 import React from 'react'
-import Home from '../../../public/assets/Components/sidebar/home.jsx'
-import Search from '../../../public/assets/Components/sidebar/search.jsx'
-import AddPost from '../../../public/assets/Components/sidebar/addPost.jsx'
-import Notification from '../../../public/assets/Components/sidebar/notification.jsx'
-import Profile from '../../../public/assets/Components/sidebar/profile.jsx'
-import Menu from '../../../public/assets/Components/sidebar/menu.jsx'
-import Logo from '../../../public/assets/Components/sidebar/logo.jsx'
+
+
+
 import { Link } from 'react-router-dom'
 import PostAreaComponent from './PostAreaComponent.jsx'
+
+import { FaThreads } from "react-icons/fa6";
+import { GoHome } from "react-icons/go";
+import { IoIosSearch } from "react-icons/io";
+import { IoIosAdd } from "react-icons/io";
+import { IoIosHeartEmpty } from "react-icons/io";
+import { MdPersonOutline } from "react-icons/md";
+import { PiMessengerLogo } from "react-icons/pi";
+
+
+import { IoMenuSharp } from "react-icons/io5";
+
+
+
+
 
 const Sidebar = () => {
 
@@ -48,33 +59,37 @@ const Sidebar = () => {
                 className='mt-[25%] flex items-center justify-center hover:scale-110 transition duration-300 hover:cursor-pointer'
                 to='/'
             >
-                <Logo />
+                <FaThreads size='40' color='black' />
             </Link>
 
             <div className='flex flex-col items-center justify-around  h-[400px]'>
                 <Link
                     to='/'
                 >
-                    <Home />
+                    <GoHome size='30' color='black' />
                 </Link>
 
                 <div>
-                    <Search />
+                    <IoIosSearch size='30' color='black' />
                 </div>
 
                 <div>
-                    <PostAreaComponent logo={<AddPost />} />
+                    <PostAreaComponent logo={<IoIosAdd size='35' color='black' />} />
                 </div>
 
                 <div>
-                    <Notification />
+                    <IoIosHeartEmpty size='30' color='black' />
                 </div>
 
                 <Link className='hover:cursor-pointer'
                     to={`/profile/${authUser?.username}`}
                 >
-                    <Profile />
+                    <MdPersonOutline size='30' color='black' />
                 </Link>
+
+                <div>
+                    <PiMessengerLogo size='30' color='black' />
+                </div>
 
 
 
@@ -83,7 +98,7 @@ const Sidebar = () => {
             <div className='w-full mb-[30%] flex items-center justify-center '>
 
                 <div className="dropdown dropdown-right dropdown-end">
-                    <div tabIndex={0} role="button" className="btn m-1"><Menu /></div>
+                    <div tabIndex={0} role="button" className="btn m-1"><IoMenuSharp size='30' color='black' /></div>
 
                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow outline outline-[1px] outline-[rgba(0,0,0,0.4)]">
                         <li className='text-red-600 font-bold' onClick={handleLogout}><a>Logout</a></li>
