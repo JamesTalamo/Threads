@@ -2,8 +2,8 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 dotenv.config()
 
-//Config for cloudinary
-CloudinaryConfig()
+
+
 
 //local imports
 import connectDB from './config/ConnectDB.js'
@@ -18,7 +18,12 @@ import messageRoutes from './routes/message.routes.js'
 import express from 'express'
 import AllowedCors from './config/AllowedCors.js'
 import CloudinaryConfig from './config/CloudinaryConfig.js'
-const app = express()
+
+//Config for cloudinary
+CloudinaryConfig()
+
+// const app = express()
+import { app, server } from './config/socket.js'
 
 //CORS
 app.use(AllowedCors)
@@ -33,8 +38,8 @@ app.use('/api/post', postRoutes) // for post of users
 app.use('/api/users', userRoutes) // for users things
 app.use('/api/message', messageRoutes) // for messages
 
-const PORT = process.env.PORT
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 3000
+server.listen(PORT, () => {
     console.log(`Listening to PORT ${PORT}`)
     connectDB()
 })
