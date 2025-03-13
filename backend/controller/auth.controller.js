@@ -32,7 +32,7 @@ export const authRegister = async (req, res) => {
 
         if (newUser) {
 
-            newUser.profilePicture = 'https://i.pinimg.com/1200x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg'
+            // newUser.profilePicture = 'https://i.pinimg.com/1200x/2c/47/d5/2c47d5dd5b532f83bb55c4cd6f5bd1ef.jpg'
 
             await newUser.save()
             res.status(201).json({ success: `${username} is now registered.` })

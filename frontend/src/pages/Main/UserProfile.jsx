@@ -122,6 +122,8 @@ const UserProfile = () => {
     )
   }
 
+  console.log(userInfo)
+
   return (
     <div className='w-[100%] h-[100vh] flex items-end justify-center overflow-hidden '>
       <div className='w-[40%] h-[90%] rounded-t-3xl border-gray-300 border-[1.5px] relative px-[2%] pt-[2%]'>
@@ -130,7 +132,9 @@ const UserProfile = () => {
 
         <div className="avatar absolute top-[2%] right-[5%]">
           <div className="w-24 rounded-full">
-            <img src={userInfo?.profilePicture} />
+            <img
+              src={userInfo?.profilePicture === "" ? '/assets/common/pfp.jpg' : userInfo?.profilePicture}
+            />
           </div>
         </div>
 

@@ -72,7 +72,7 @@ const GetUserPost = ({ username }) => {
                     <div className="flex items-start pt-4 justify-center  p-3">
                         <div className="avatar ">
                             <div className="w-10 rounded-full">
-                                <img src={post.user.profilePicture} />
+                                <img src={post.user.profilePicture === "" ? '/assets/common/pfp.jpg' : post.user.profilePicture} />
                             </div>
                         </div>
                     </div>
