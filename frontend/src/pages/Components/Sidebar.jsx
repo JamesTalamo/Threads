@@ -87,9 +87,11 @@ const Sidebar = () => {
                     <MdPersonOutline size='30' color='black' />
                 </Link>
 
-                <div>
+                <Link className='hover:cursor-pointer'
+                    to={'/message'}
+                >
                     <PiMessengerLogo size='30' color='black' />
-                </div>
+                </Link>
 
 
 
@@ -97,8 +99,8 @@ const Sidebar = () => {
 
             <div className='w-full mb-[30%] flex items-center justify-center '>
 
-                <div className="dropdown dropdown-right dropdown-end">
-                    <div tabIndex={0} role="button" className="btn m-1"><IoMenuSharp size='30' color='black' /></div>
+                <div className="dropdown dropdown-right dropdown-end ">
+                    <div tabIndex={0} role="button" className="btn m-1 bg-white"><IoMenuSharp size='30' color='black' /></div>
 
                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow outline outline-[1px] outline-[rgba(0,0,0,0.4)]">
                         <li className='text-red-600 font-bold' onClick={handleLogout}><a>Logout</a></li>
@@ -107,7 +109,7 @@ const Sidebar = () => {
                 </div>
 
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { Link } from 'react-router-dom';
 
 import GetUserPost from '../Components/GetUserPost.jsx';
 
-
+import useMessageStore from '../../store/useMessageStore.js'
 
 const UserProfile = () => {
+
+  const { setSelectedUser } = useMessageStore()
+
   let [profileImg, setProfileImg] = useState("");
   let profileImgRef = useRef(null);
 
@@ -122,11 +126,9 @@ const UserProfile = () => {
     )
   }
 
-  console.log(userInfo)
-
   return (
-    <div className='w-[100%] h-[100vh] flex items-end justify-center overflow-hidden '>
-      <div className='w-[40%] h-[90%] rounded-t-3xl border-gray-300 border-[1.5px] relative px-[2%] pt-[2%]'>
+    <div className='w-[100%] h-[100vh] flex items-end justify-center overflow-hidden  '>
+      <div className='w-[40%] h-[95%] rounded-t-3xl border-gray-300 border-[1.5px] relative px-[2%] pt-[2%]'>
         <div className='font-bold text-2xl text-black'>{userInfo?.username}</div>
         <div className='text-black'>{userInfo?.email}</div>
 
@@ -146,6 +148,9 @@ const UserProfile = () => {
 
         {userInfo?.username === authUser?.username ? <div>
           <label htmlFor="my_modal_7" className="btn w-[100%] h-[40px] rounded-lg border-gray-300 border-[1.5px] mt-[40px]">Edit</label>
+
+
+
           <input type="checkbox" id="my_modal_7" className="modal-toggle" />
           <div className="modal" role="dialog">
 
@@ -267,8 +272,30 @@ const UserProfile = () => {
           </div>
         </div> : ''}
 
+        {/* Dropdown for more options */}
+        {username === authUser.username ? '' :
+          <div className='w-[100%] h-[6%] flex items-center justify-end'>
+            <div className="dropdown dropdown-bottom">
+              <div tabIndex={0} role="button" className="btn bg-black text-white m-1">More</div>
+              <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm">
+                <li className='border border-1 border-black rounded-xl'>
+                  <a>
+                    <Link to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
+                      Send Message
+                    </Link>
+                  </a>
+
+                </li>
+
+              </ul>
+            </div>
+          </div>
+        }
+        {/*Dropdown End*/}
+
+
         {/* For future use */}
-        <div className='mt-[5%] w-[100%] h-[70%] overflow-y-scroll'>
+        <div className='mt-[5%] w-[100%] h-[55%] overflow-y-scroll'>
 
 
           <GetUserPost username={username} />

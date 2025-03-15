@@ -11,6 +11,8 @@ export const getAllMessages = async (req, res) => {
             { senderId: otherUserId, receiverId: myId }
         ]
     })
+        .populate('senderId', 'profilePicture username')
+        .populate('receiverId', 'profilePicture username')
 
     res.status(200).json(messages)
 }

@@ -11,6 +11,7 @@ import { Toaster } from 'react-hot-toast';
 import { useQuery } from 'react-query'
 
 import Sidebar from "./pages/Components/Sidebar.jsx";
+import MainMessagePage from "./pages/Message/MainMessagePage.jsx";
 
 
 function App() {
@@ -53,7 +54,7 @@ function App() {
 
 
   return (
-    <div className='w-screen h-dvh flex justify-center items-end'>
+    <div className='w-screen h-dvh flex justify-center items-end relative'>
 
       {authUser && <Sidebar />}
       <Toaster position="bottom-center" />
@@ -64,6 +65,7 @@ function App() {
         <Route path='/login' element={authUser ? <Navigate to="/" /> : <LoginPage />} />
 
 
+        <Route path='/message/:username' element={authUser ? <MainMessagePage /> : <Navigate to="/" />} />
         <Route path={`/profile/:username`} element={authUser ? <UserProfile /> : <Navigate to='/' />} />
       </Routes>
     </div>
