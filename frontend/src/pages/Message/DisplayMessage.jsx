@@ -16,9 +16,9 @@ const DisplayMessage = () => {
     return (
         <div className='px-[2%]'>
 
-            {messages.map((message) => {
+            {messages.map((message, index) => {
                 return message.senderId._id === loggedUserId ?
-                    <div className="chat chat-end">
+                    <div className="chat chat-end" key={index}>
                         <div className="chat-image avatar">
                             <div className="w-10 rounded-full">
                                 <img
@@ -32,7 +32,7 @@ const DisplayMessage = () => {
                         <div className="chat-bubble">{message.text}</div>
                     </div>
                     :
-                    <div className="chat chat-start">
+                    <div className="chat chat-start"  key={index}>
                         <div className="chat-image avatar">
                             <div className="w-10 rounded-full">
                                 <img

@@ -10,13 +10,10 @@ const useMessageStore = create((set, get) => ({
     },
 
     messages: [],
-    getMessages: async () => {
+    getMessages: async (selectedUserId) => {
         set({ isMessageLoading: true })
 
-        const selectedUserId = get().selectedUser._id
-
         try {
-
             let res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/message/getAllMessage/${selectedUserId}`, {
                 method: 'GET',
                 headers: {
@@ -35,7 +32,8 @@ const useMessageStore = create((set, get) => ({
             set({ isMessageLoading: false })
 
 
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Error fetching messages:", error.message);
         }
     },

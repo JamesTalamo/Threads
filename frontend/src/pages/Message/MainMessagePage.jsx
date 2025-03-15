@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useQuery } from 'react-query'
+
 import useMessageStore from '../../store/useMessageStore.js'
 
 import MessageSkeleton from '../Skeleton/MessageSkeleton.jsx'
@@ -8,13 +10,38 @@ import DisplayMessage from './DisplayMessage.jsx'
 const MainMessagePage = () => {
     const { username } = useParams()
 
+    let { data: userInfo, refetch } = useQuery({
+        queryKey: ['userProfile', username],  // Unique query key
+        queryFn: async () => {
+            // if (!username) return null;
+            try {
+                const res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/users/profile/${username}`, {
+                    method: 'GET',
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })
+
+                let data = await res.json()
+                if (!res.ok) throw new Error(data.error || 'Error in LoginPage.')
+
+                return data
+            } catch (error) {
+                throw new Error(error.message)
+            }
+        },
+        retry: false
+
+    })
+
+    // console.log(userInfo?._id)
     const { selectedUser, getMessages, isMessageLoading, sendMessages } = useMessageStore() //Info of the selectedUser
 
     useEffect(() => {
-
-        getMessages()
-
-    }, [selectedUser])
+        if (userInfo?._id) {
+            getMessages(userInfo._id);
+        }
+    }, [userInfo])
 
     const [formData, setFormData] = useState({
         text: ''
