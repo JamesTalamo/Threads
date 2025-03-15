@@ -279,11 +279,11 @@ const UserProfile = () => {
               <div tabIndex={0} role="button" className="btn bg-black text-white m-1">More</div>
               <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm">
                 <li className='border border-1 border-black rounded-xl'>
-                  <a>
+                  
                     <Link to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
                       Send Message
                     </Link>
-                  </a>
+                
 
                 </li>
 

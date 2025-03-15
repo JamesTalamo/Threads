@@ -87,11 +87,11 @@ const Sidebar = () => {
                     <MdPersonOutline size='30' color='black' />
                 </Link>
 
-                <Link className='hover:cursor-pointer'
+                {/* <Link className='hover:cursor-pointer'
                     to={'/message'}
                 >
                     <PiMessengerLogo size='30' color='black' />
-                </Link>
+                </Link> */}
 
 
 
