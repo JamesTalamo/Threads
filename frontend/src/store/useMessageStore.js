@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { io } from 'socket.io-client'
 
-const socketUrl = import.meta.env.VITE_BACKEND_URL || 'ws://localhost:3000'
+const socketUrl = import.meta.env.VITE_BACKEND_URL
 
 const useMessageStore = create((set, get) => ({
 
