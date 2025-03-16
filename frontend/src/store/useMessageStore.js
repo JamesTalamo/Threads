@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { io } from 'socket.io-client'
 
-const socketUrl = import.meta.env.VITE_BACKEND_URL // http://localhost:3000
+const socketUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000' 
 
 const useMessageStore = create((set, get) => ({
 
@@ -16,14 +16,17 @@ const useMessageStore = create((set, get) => ({
     setSelectedUser: (name) => {
         set({ selectedUser: name })
     },
-
-
+    
     messageConnector: async () => {
         const { socket, messages } = get()
         const selectedUserId = get().selectedUser?._id
         if (!selectedUserId) return
 
+        console.log(socketUrl)
+
         socket.on('newMessage', (message) => {
+
+            console.log('test')
             set((state) => ({
                 messages: [...state.messages, message] // Ensures the latest messages state is used
             }));
@@ -62,7 +65,7 @@ const useMessageStore = create((set, get) => ({
     },
     sendMessages: async ({ text }) => {
         const { messages } = get()
-
+        console.log(socketUrl)
         const selectedUserId = get().selectedUser._id
 
         try {
@@ -90,6 +93,7 @@ const useMessageStore = create((set, get) => ({
 
     connectSocket: async () => {
         const { currentUser, messageConnector } = get()
+      
 
         if (currentUser !== null) {
             const socket = io(socketUrl, {
