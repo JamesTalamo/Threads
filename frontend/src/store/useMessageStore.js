@@ -23,8 +23,6 @@ const useMessageStore = create((set, get) => ({
         if (!selectedUserId) return
 
         socket.on('newMessage', (message) => {
-
-            console.log('test')
             set((state) => ({
                 messages: [...state.messages, message] // Ensures the latest messages state is used
             }));
