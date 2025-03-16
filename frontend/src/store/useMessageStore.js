@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { io } from 'socket.io-client'
 
-const socketUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000' 
+const socketUrl = import.meta.env.VITE_BACKEND_URI || 'http://localhost:3000' 
 
 const useMessageStore = create((set, get) => ({
 
@@ -21,8 +21,6 @@ const useMessageStore = create((set, get) => ({
         const { socket, messages } = get()
         const selectedUserId = get().selectedUser?._id
         if (!selectedUserId) return
-
-        console.log(socketUrl)
 
         socket.on('newMessage', (message) => {
 
@@ -67,7 +65,7 @@ const useMessageStore = create((set, get) => ({
         const { messages } = get()
         console.log(socketUrl)
         const selectedUserId = get().selectedUser._id
-
+        
         try {
             let res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/message/sendMessage/${selectedUserId}`, {
                 method: 'POST',
