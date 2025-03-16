@@ -12,9 +12,10 @@ import { useQuery } from 'react-query'
 
 import Sidebar from "./pages/Components/Sidebar.jsx";
 import MainMessagePage from "./pages/Message/MainMessagePage.jsx";
-
+import useMessageStore from "./store/useMessageStore.js";
 
 function App() {
+  const { setCurrentUser, connectSocket } = useMessageStore()
 
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
@@ -29,6 +30,10 @@ function App() {
         })
 
         let data = await res.json()
+
+        setCurrentUser(data) // inistore ko yung current user sa zustand
+        connectSocket()
+
         if (data.error) return null
 
         if (!res.ok) throw new Error(data.error || 'Something Went Wrong.')

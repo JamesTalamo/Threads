@@ -3,8 +3,6 @@ import cookieParser from 'cookie-parser'
 dotenv.config()
 
 
-
-
 //local imports
 import connectDB from './config/ConnectDB.js'
 

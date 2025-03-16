@@ -1,5 +1,6 @@
 
 import Message from '../models/Message.model.js'
+import { getReceiverSocketId, io } from '../config/socket.js'
 
 export const getAllMessages = async (req, res) => {
     const myId = req.user.id.toString()
@@ -30,8 +31,17 @@ export const sendMessage = async (req, res) => {
         receiverId: receiverId,
         text: text
     })
-
     await newMessage.save()
-    res.status(201).json(newMessage)
+
+    const populateNewMessage = await newMessage.populate([
+        { path: "senderId", select: "profilePicture username" },
+        { path: "receiverId", select: "profilePicture username" },
+    ])
+
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+        io.to(receiverSocketId).emit("newMessage", populateNewMessage);
+    }
+    res.status(201).json(populateNewMessage)
 
 }

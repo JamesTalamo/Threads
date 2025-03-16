@@ -1,6 +1,14 @@
 import { create } from 'zustand'
+import { io } from 'socket.io-client'
+
+const socketUrl = import.meta.env.VITE_BACKEND_URL || 'ws://localhost:3000'
 
 const useMessageStore = create((set, get) => ({
+
+    currentUser: null,
+    setCurrentUser: (user) => (set({ currentUser: user })),
+
+    socket: null,
 
     isMessageLoading: false,
 
@@ -9,8 +17,23 @@ const useMessageStore = create((set, get) => ({
         set({ selectedUser: name })
     },
 
+
+    messageConnector: async () => {
+        const { socket, messages } = get()
+        const selectedUserId = get().selectedUser?._id
+        if (!selectedUserId) return
+
+        socket.on('newMessage', (message) => {
+            set((state) => ({
+                messages: [...state.messages, message] // Ensures the latest messages state is used
+            }));
+        });
+    },
+
     messages: [],
     getMessages: async (selectedUserId) => {
+        const { messageConnector } = get()
+
         set({ isMessageLoading: true })
 
         try {
@@ -37,8 +60,8 @@ const useMessageStore = create((set, get) => ({
             console.error("Error fetching messages:", error.message);
         }
     },
-
     sendMessages: async ({ text }) => {
+        const { messages } = get()
 
         const selectedUserId = get().selectedUser._id
 
@@ -58,8 +81,35 @@ const useMessageStore = create((set, get) => ({
             }
 
             let data = await res.json();
+
+            set({ messages: [...messages, data] })
         } catch (error) {
             console.error("Error fetching messages:", error.message);
+        }
+    },
+
+    connectSocket: async () => {
+        const { currentUser, messageConnector } = get()
+
+        if (currentUser !== null) {
+            const socket = io(socketUrl, {
+                query: {
+                    userId: currentUser._id
+                }
+            })
+
+            socket.connect()
+            set({ socket: socket })
+            messageConnector()
+        }
+
+    },
+    disconnectSocket: async () => {
+        const { currentUser, socket } = get()
+
+        if (currentUser === null && socket) {
+            socket.disconnect();
+            set({ socket: null });
         }
     }
 

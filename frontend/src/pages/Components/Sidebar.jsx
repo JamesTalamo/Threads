@@ -1,5 +1,6 @@
 
 import { useQueryClient, useMutation, useQuery } from 'react-query'
+import useMessageStore from '../../store/useMessageStore.js'
 
 import React from 'react'
 
@@ -25,6 +26,7 @@ import { IoMenuSharp } from "react-icons/io5";
 
 const Sidebar = () => {
 
+    const { disconnectSocket } = useMessageStore()
     const queryClient = useQueryClient()
 
     const { mutate } = useMutation({
@@ -38,7 +40,7 @@ const Sidebar = () => {
             })
 
             let data = await res.json()
-
+            disconnectSocket()
             if (!res.ok) throw new Error(data.error || 'Logout Fetch Error.')
         },
         onSuccess: (() => {
@@ -86,14 +88,6 @@ const Sidebar = () => {
                 >
                     <MdPersonOutline size='30' color='black' />
                 </Link>
-
-                {/* <Link className='hover:cursor-pointer'
-                    to={'/message'}
-                >
-                    <PiMessengerLogo size='30' color='black' />
-                </Link> */}
-
-
 
             </div>
 

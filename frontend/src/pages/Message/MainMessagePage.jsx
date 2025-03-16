@@ -7,6 +7,7 @@ import useMessageStore from '../../store/useMessageStore.js'
 import MessageSkeleton from '../Skeleton/MessageSkeleton.jsx'
 import DisplayMessage from './DisplayMessage.jsx'
 
+
 const MainMessagePage = () => {
     const { username } = useParams()
 
@@ -34,14 +35,16 @@ const MainMessagePage = () => {
 
     })
 
-    // console.log(userInfo?._id)
-    const { selectedUser, getMessages, isMessageLoading, sendMessages } = useMessageStore() //Info of the selectedUser
+    const { messageConnector, setSelectedUser, getMessages, isMessageLoading, sendMessages } = useMessageStore() //Info of the selectedUser
 
     useEffect(() => {
         if (userInfo?._id) {
             getMessages(userInfo._id);
+            setSelectedUser(userInfo)
         }
+        messageConnector()
     }, [userInfo])
+
 
     const [formData, setFormData] = useState({
         text: ''
@@ -52,7 +55,9 @@ const MainMessagePage = () => {
     }
 
     const handleSubmit = () => {
+        if (!formData.text.trim()) return; 
         sendMessages(formData)
+        setFormData({ text: '' });
     }
 
     return (
@@ -65,7 +70,7 @@ const MainMessagePage = () => {
                     {username}
                 </div>
 
-                <div className='w-[100%] h-[80%] bg-white'> {/*The message area */}
+                <div className='w-[100%] h-[80%] bg-white overflow-y-scroll'> {/*The message area */}
                     {isMessageLoading ? <MessageSkeleton /> : <DisplayMessage />}
 
                 </div>
@@ -77,7 +82,7 @@ const MainMessagePage = () => {
                             e.preventDefault()
                             handleSubmit()
                         }}>
-                        <input type="text" placeholder="Type here" className="input w-[90%] border border-black" name='text' onChange={handleInputChange} />
+                        <input type="text" placeholder="Type here" className="input w-[90%] border border-black" value={formData.text} name='text' onChange={handleInputChange} />
                         <button className="btn btn-active btn-info" type='submit'>Send</button>
 
                     </form>
