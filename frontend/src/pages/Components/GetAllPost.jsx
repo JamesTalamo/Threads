@@ -96,12 +96,12 @@ const GetAllPost = () => {
                         </Link>
 
                         {/* Text Post */}
-                        <div>{post.text}</div>
+                        <div className='pr-[10%]'>{post.text}</div>
 
                         {post.user._id === authUser?._id ?
                             <div className='absolute right-0 top-0'>
                                 <div className="dropdown dropdown-bottom dropdown-end ">
-                                    <div tabIndex={0} role="button" className="btn m-1">...</div>
+                                    <div tabIndex={0} role="button" className="btn m-1 bg-white">...</div>
                                     <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow border-[1.5px] border-gray-300">
                                         <li className='text-red-500'
                                             onClick={() => deletePost(post._id)}

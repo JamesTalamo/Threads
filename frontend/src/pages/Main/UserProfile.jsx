@@ -128,12 +128,12 @@ const UserProfile = () => {
 
   return (
     <div className='w-[100%] h-[100vh] flex items-end justify-center overflow-hidden  bg-white'>
-      <div className='w-[40%] h-[95%] rounded-t-3xl border-gray-300 border-[1.5px] relative px-[2%] pt-[2%] bg-white'>
+      <div className='w-[100%] sm:w-[70%] md:w-[60%] lg:w-[40%] h-[95%] rounded-t-3xl border-gray-300 border-[1.5px] relative px-[2%] pt-[2%] bg-white'>
         <div className='font-bold text-2xl text-black'>{userInfo?.username}</div>
         <div className='text-black'>{userInfo?.email}</div>
 
         <div className="avatar absolute top-[2%] right-[5%]">
-          <div className="w-24 rounded-full">
+          <div className="w-20 sm:w-24 rounded-full">
             <img
               src={userInfo?.profilePicture === "" ? '/assets/common/pfp.jpg' : userInfo?.profilePicture}
             />
@@ -154,9 +154,9 @@ const UserProfile = () => {
           <input type="checkbox" id="my_modal_7" className="modal-toggle" />
           <div className="modal" role="dialog">
 
-            <div className="modal-box">
+            <div className="modal-box bg-white">
               <div className='w-full h-full flex gap-2 flex-col'>
-                <div className='w-full h-[30px] text-center font-bold'>User Profile</div>
+                <div className='w-full h-[30px] text-center font-bold text-black'>User Profile</div>
 
                 <form
                   className='w-full h-full flex gap-2 flex-col'
@@ -166,7 +166,7 @@ const UserProfile = () => {
                   }}>
 
                   {/* For username */}
-                  <label className="input input-bordered flex items-center gap-2">
+                  <label className="input input-bordered flex items-center gap-2 bg-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 16 16"
@@ -186,7 +186,7 @@ const UserProfile = () => {
                   </label>
 
                   {/* For current password */}
-                  <label className="input input-bordered flex items-center gap-2">
+                  <label className="input input-bordered flex items-center gap-2  bg-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 16 16"
@@ -207,7 +207,7 @@ const UserProfile = () => {
                   </label>
 
                   {/* For new password */}
-                  <label className="input input-bordered flex items-center gap-2">
+                  <label className="input input-bordered flex items-center gap-2  bg-white">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 16 16"
@@ -228,7 +228,7 @@ const UserProfile = () => {
                   </label>
 
                   {/* For Bio */}
-                  <label className="input input-bordered flex items-center gap-2">
+                  <label className="input input-bordered flex items-center gap-2  bg-white">
                     <input
                       name='bio'
                       type="text"
@@ -240,7 +240,7 @@ const UserProfile = () => {
                   </label>
 
                   {/* For Profile Picture */}
-                  <label className="form-control w-full max-w-xs">
+                  <label className="form-control w-full max-w-xs  bg-white">
                     <div className="label">
 
                       <span className="label-text-alt">Profile Picture</span>
