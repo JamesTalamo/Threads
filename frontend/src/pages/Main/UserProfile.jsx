@@ -172,14 +172,13 @@ const UserProfile = () => {
 
         {/*Profile picture in here*/}
         <div className='text-gray-500 py-[20px] text-black'>Bio : {userInfo?.bio === "" ? <span>This user has not provided any bio.</span> : userInfo?.bio}</div>
+        
         <div className='flex gap-[15px] '>
           <div className='text-gray-500 text-black'>Joined {userInfo?.createdAt.split('-')[0]}</div>
 
           <UserProfileFollowers userInfo={userInfo} />
           <UserProfileFollowing userInfo={userInfo} />
 
-          {/* <div className="badge badge-outline badge-default inline">{`Followers ${userInfo?.followers?.length}`} </div > */}
-          {/* <div className="badge badge-outline badge-default inline">{`Following ${userInfo?.following?.length}`} </div > */}
 
         </div>
 
