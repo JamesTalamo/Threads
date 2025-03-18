@@ -76,7 +76,7 @@ const Sidebar = () => {
                 </div>
 
                 <div>
-                    <PostAreaComponent logo={<IoIosAdd size='35' color='black' />} />
+                    <PostAreaComponent logo={<IoIosAdd size='35' color='black' className='white' />} />
                 </div>
 
                 <div>

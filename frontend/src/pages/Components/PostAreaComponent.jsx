@@ -66,9 +66,9 @@ const PostAreaComponent = ({ logo }) => {
             {/* Open the modal using document.getElementById('ID').showModal() method */}
             <button className="btn" onClick={() => document.getElementById('my_modal_2').showModal()}>{logo}</button>
             <dialog id="my_modal_2" className="modal">
-                <div className="modal-box">
+                <div className="modal-box bg-white">
 
-                    <h3 className="font-bold text-lg text-center">New Thread</h3>
+                    <h3 className="font-bold text-lg text-center text-black">New Thread</h3>
                     <div className='w-[100%] h-[0.5px] my-3 bg-gray-300'></div>
 
                     <div className='w-[100%] h-[50px] mb-5 flex items-center justify-start'>
@@ -86,7 +86,7 @@ const PostAreaComponent = ({ logo }) => {
 
                     <form onSubmit={handleSubmit}>
                         <textarea
-                            className='w-[100%] h-[30vh] resize-none focus:outline-none'
+                            className='w-[100%] h-[30vh] resize-none focus:outline-none bg-white'
                             placeholder="What's on your mind?"
                             onChange={handleInputChange}
                             name='commentTextArea'

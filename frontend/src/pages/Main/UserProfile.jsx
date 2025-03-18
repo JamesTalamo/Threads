@@ -127,8 +127,8 @@ const UserProfile = () => {
   }
 
   return (
-    <div className='w-[100%] h-[100vh] flex items-end justify-center overflow-hidden  '>
-      <div className='w-[40%] h-[95%] rounded-t-3xl border-gray-300 border-[1.5px] relative px-[2%] pt-[2%]'>
+    <div className='w-[100%] h-[100vh] flex items-end justify-center overflow-hidden  bg-white'>
+      <div className='w-[40%] h-[95%] rounded-t-3xl border-gray-300 border-[1.5px] relative px-[2%] pt-[2%] bg-white'>
         <div className='font-bold text-2xl text-black'>{userInfo?.username}</div>
         <div className='text-black'>{userInfo?.email}</div>
 
@@ -143,11 +143,11 @@ const UserProfile = () => {
 
 
         {/*Profile picture in here*/}
-        <div className='text-gray-500 py-[20px]'>Bio : {userInfo?.bio === "" ? <span>This user has not provided any bio.</span> : userInfo?.bio}</div>
-        <div className='text-gray-500'>Joined {userInfo?.createdAt.split('-')[0]}</div>
+        <div className='text-gray-500 py-[20px] text-black'>Bio : {userInfo?.bio === "" ? <span>This user has not provided any bio.</span> : userInfo?.bio}</div>
+        <div className='text-gray-500 text-black'>Joined {userInfo?.createdAt.split('-')[0]}</div>
 
         {userInfo?.username === authUser?.username ? <div>
-          <label htmlFor="my_modal_7" className="btn w-[100%] h-[40px] rounded-lg border-gray-300 border-[1.5px] mt-[40px]">Edit</label>
+          <label htmlFor="my_modal_7" className="btn w-[100%] h-[40px] rounded-lg border-gray-300 border-[1.5px] mt-[40px] bg-white">Edit</label>
 
 
 
@@ -280,7 +280,7 @@ const UserProfile = () => {
               <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm">
                 <li className='border border-1 border-black rounded-xl'>
 
-                  <Link to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
+                  <Link className='bg-white text-black' to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
                     Send Message
                   </Link>
 
