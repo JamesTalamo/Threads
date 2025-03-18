@@ -11,7 +11,10 @@ export const getUserPorfile = async (req, res) => {
         let user = await User.findOne({ username })
         if (!user) return res.status(400).json({ error: 'User does not exist!' })
 
-        const populateData = await user.populate('followers', 'username profilePicture')
+        const populateData = await user.populate([
+            { path: 'followers', select: 'username profilePicture' },
+            { path: 'following', select: 'username profilePicture' }
+        ])
 
         return res.status(200).json(populateData)
 

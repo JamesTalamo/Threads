@@ -1,32 +1,40 @@
 import React from 'react'
-import { useQuery } from 'react-query'
 
+import { Link } from 'react-router-dom'
 
-
-const UserProfileFollowers = () => {
-
-  const { data: userInfo } = useQuery({ queryKey: ['userInfo'] })
+const UserProfileFollowers = ({ userInfo }) => {
 
   return (
     <div>
-      {/* You can open the modal using document.getElementById('ID').showModal() method */}
       < button className="badge badge-outline badge-default inline" onClick={() => document.getElementById('my_modal_5').showModal()}>{`Followers ${userInfo?.followers?.length}`} </button >
       <dialog id="my_modal_5" className="modal">
 
-        <div className="modal-box bg-white">
+        <div className="modal-box bg-white max-w-[500px] h-[700px] ">
           <form method="dialog">
-            {/* if there is a button in form, it will close the modal */}
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
           </form>
-          <h3 className="font-bold text-lg">
+          <h3 className="font-bold text-lg text-center">
             Followers
           </h3>
 
 
-          <p className="py-4">
 
+          {userInfo?.followers?.map((user, index) => (
+            <Link
+              className='w-[100%] h-[80px] border-b border-1 border-gray-300 px-[15px] py-[1%] cursor-pointer flex items-center justify-start'
+              key={index}
+              to={`/profile/${user?.username}`}
+            >
+              <div className="avatar">
+                <div className="w-10 rounded-full">
+                  <img src={user.profilePicture ? user.profilePicture : '/assets/common/noProfile.png'} />
+                </div>
+              </div>
 
-          </p>
+              <div className='pl-[5%] font-bold text-black'>{user?.username}</div>
+            </Link>
+          ))}
+
 
         </div>
       </dialog>

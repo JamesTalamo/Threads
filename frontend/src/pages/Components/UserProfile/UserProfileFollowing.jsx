@@ -1,31 +1,39 @@
 import React from 'react'
-import { useQuery } from 'react-query'
 
-const UserProfileFollowing = () => {
+import { Link } from 'react-router-dom'
 
-    const { data: userInfo } = useQuery({ queryKey: ['userInfo'] })
+const UserProfileFollowers = ({ userInfo }) => {
 
     return (
         <div>
-            {/* You can open the modal using document.getElementById('ID').showModal() method */}
-            < button className="badge badge-outline badge-default inline" onClick={() => document.getElementById('my_modal_4').showModal()}>{`Following ${userInfo?.following?.length}`} </button >
-            <dialog id="my_modal_4" className="modal">
+            < button className="badge badge-outline badge-default inline" onClick={() => document.getElementById('my_modal_6').showModal()}>{`Following ${userInfo?.following?.length}`} </button >
+            <dialog id="my_modal_6" className="modal">
 
-                <div className="modal-box bg-white">
+                <div className="modal-box bg-white max-w-[500px] h-[700px] ">
                     <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */}
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
-                    <h3 className="font-bold text-lg">
+                    <h3 className="font-bold text-lg text-center">
                         Following
                     </h3>
-                    {console.log(userInfo)}
 
-                    <div className="py-4 bg-red-500 flex">
-                        {userInfo?.following?.map((user) => {
-                            <div className='bg-red-500 w-[50px] h-[50px]'>user</div>
-                        })}
-                    </div>
+
+                    {userInfo?.following?.map((user, index) => (
+                        <Link
+                            className='w-[100%] h-[80px] border-b border-1 border-gray-300 px-[15px] py-[1%] cursor-pointer flex items-center justify-start'
+                            key={index}
+                            to={`/profile/${user?.username}`}
+                        >
+                            <div className="avatar">
+                                <div className="w-10 rounded-full">
+                                    <img src={user.profilePicture ? user.profilePicture : '/assets/common/noProfile.png'} />
+                                </div>
+                            </div>
+
+                            <div className='pl-[5%] font-bold text-black'>{user?.username}</div>
+                        </Link>
+                    ))}
+
 
                 </div>
             </dialog>
@@ -33,4 +41,4 @@ const UserProfileFollowing = () => {
     )
 }
 
-export default UserProfileFollowing
+export default UserProfileFollowers
