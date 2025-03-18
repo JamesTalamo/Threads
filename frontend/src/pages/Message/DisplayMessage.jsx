@@ -7,7 +7,7 @@ const DisplayMessage = () => {
     const { data: authUser } = useQuery({ queryKey: 'authUser' });
     const loggedUserId = authUser?._id;
     const { messages } = useMessageStore();
-    
+
     // Ref for scrolling
     const messagesEndRef = useRef(null);
 
@@ -25,7 +25,9 @@ const DisplayMessage = () => {
                 >
                     <div className="chat-image avatar">
                         <div className="w-10 rounded-full">
-                            <img src={message.senderId.profilePicture} alt="Profile" />
+                            <img
+                                src={message.senderId.profilePicture ? message.senderId.profilePicture : '/assets/common/pfp.jpg'}
+                            />
                         </div>
                     </div>
                     <div className="chat-header">
