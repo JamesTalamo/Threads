@@ -11,7 +11,9 @@ export const getUserPorfile = async (req, res) => {
         let user = await User.findOne({ username })
         if (!user) return res.status(400).json({ error: 'User does not exist!' })
 
-        return res.status(200).json(user)
+        const populateData = await user.populate('followers', 'username profilePicture')
+
+        return res.status(200).json(populateData)
 
     } catch (error) {
         console.log(error.message)
@@ -24,7 +26,7 @@ export const updateUserProfile = async (req, res) => {
     const { username, password, newPassword, bio } = req.body
     let profilePicture = req.body.profilePicture || null;
 
-    
+
     const authUser = req.user._id.toString()
     try {
         const user = await User.findById(authUser)
@@ -81,5 +83,40 @@ export const updateUserProfile = async (req, res) => {
     } catch (error) {
         console.log(error.message)
         res.status(500).json({ error: 'Interanal Server Error.' })
+    }
+}
+
+export const followUnfollowUser = async (req, res) => {
+    const loggedUserId = req.user._id
+
+    try {
+        const { id } = req.params // id nung iffolow na user id
+
+        const userToModify = await User.findById(id)
+        const currentUser = await User.findById(loggedUserId)
+
+        // //checks
+        if (id === currentUser._id.toString()) return res.status(400).json({ error: 'You cannot follow/unfollow yourself' })
+        if (!userToModify || !currentUser) return res.status(400).json({ error: 'Users not found' })
+
+        const isFollowing = currentUser.following.includes(id)
+        //FOR LOGIC ! ID lang dapat ipapasa mo. Not the mismong object
+        if (isFollowing) { //Unfollow
+            // await User.findByIdAndUpdate(id, { $pull: { followers: currentUser } }) OLD
+            // await User.findByIdAndUpdate(currentUser, { $pull: { following: id } })
+
+            await User.findByIdAndUpdate(id, { $pull: { followers: loggedUserId } })
+            await User.findByIdAndUpdate(loggedUserId, { $pull: { following: id } })
+
+        } else { //Follow
+
+            await User.findByIdAndUpdate(id, { $push: { followers: loggedUserId } })
+            await User.findByIdAndUpdate(loggedUserId, { $push: { following: id } })
+        }
+
+        res.status(200).json({ message: 'User Followed/Unfollowed Successfully' })
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: 'Internal Server Error' })
     }
 }

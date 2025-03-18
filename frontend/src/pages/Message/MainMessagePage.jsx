@@ -62,20 +62,20 @@ const MainMessagePage = () => {
 
     return (
         <div className='w-[100%] h-full bg-white flex '>
-            <div className='w-[90px] bg-white'></div> {/*Disregard this, spacer lang to */}
+            <div className=' w-[0px] sm:w-[90px] bg-white'></div> {/*Disregard this, spacer lang to */}
 
-            <div className='w-[96%] h-full bg-green-500 flex flex-col items-center justify-center'>
+            <div className='w-[100%] h-full bg-white flex flex-col items-center justify-center'>
 
                 <div className='w-[100%] h-[10%] bg-white flex items-center justify-center font-bold text-[22px]'>{/*This is the chat header area */}
                     {username}
                 </div>
 
-                <div className='w-[100%] h-[80%] bg-white overflow-y-scroll'> {/*The message area */}
+                <div className='w-[100%] h-[80%] pb-[20px]'> {/*The message area */}
                     {isMessageLoading ? <MessageSkeleton /> : <DisplayMessage />}
 
                 </div>
 
-                <div className='w-[100%] bg-white h-[10%] '> {/*  Typing area */}
+                <div className='w-[100%] bg-white h-[10%] pb-[90px] sm:pb-0'> {/*  Typing area */}
 
                     <form className='w-[100%] h-[100%] flex items-center justify-around'
                         onSubmit={(e) => {

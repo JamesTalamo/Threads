@@ -23,7 +23,7 @@ export function getReceiverSocketId(userId) {
 }
 
 io.on('connection', (socket) => {
-    console.log(`${socket.id} Connected`)
+    // console.log(`${socket.id} Connected`)
 
     const userId = socket.handshake.query.userId
     if (userId) {
@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
 
 
     socket.on('disconnect', () => {
-        console.log(`${socket.id} Disconnected`)
+        // console.log(`${socket.id} Disconnected`)
     })
 })
 

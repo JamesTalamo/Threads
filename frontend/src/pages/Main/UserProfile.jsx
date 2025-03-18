@@ -3,6 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
 
+import UserProfileFollowers from '../Components/UserProfile/UserProfileFollowers.jsx';
+import UserProfileFollowing from '../Components/UserProfile/UserProfileFollowing.jsx';
+
 import GetUserPost from '../Components/GetUserPost.jsx';
 
 import useMessageStore from '../../store/useMessageStore.js'
@@ -23,7 +26,8 @@ const UserProfile = () => {
   })
 
   let { username } = useParams()
-  let { data: userInfo, isLoading, refetch } = useQuery({
+  let { data: userInfo, isLoading, refetch: refetchUserInfo } = useQuery({
+    queryKey: ['userInfo'],
     queryFn: async () => {
       try {
         const res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/users/profile/${username}`, {
@@ -93,6 +97,32 @@ const UserProfile = () => {
     })
   })
 
+  //Functions for following
+  const { mutate: followFunction } = useMutation({
+    mutationFn: async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/users/profile/follow/${userInfo?._id}`, {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json'
+          },
+          credentials: 'include'
+        })
+
+        let data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'Error in LoginPage.')
+
+        return data
+      } catch (error) {
+        throw new Error(error.message)
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries('authUser')
+      refetchUserInfo()
+    }
+  })
+
   const handleImgChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -114,8 +144,8 @@ const UserProfile = () => {
   }
 
   useEffect(() => {
-    refetch();
-  }, [username, refetch]);
+    refetchUserInfo();
+  }, [username, refetchUserInfo]);
 
 
   if (isLoading) {
@@ -140,12 +170,16 @@ const UserProfile = () => {
           </div>
         </div>
 
-
-
         {/*Profile picture in here*/}
         <div className='text-gray-500 py-[20px] text-black'>Bio : {userInfo?.bio === "" ? <span>This user has not provided any bio.</span> : userInfo?.bio}</div>
-        <div className='text-gray-500 text-black'>Joined {userInfo?.createdAt.split('-')[0]}</div>
+        <div className='flex gap-[15px] '>
+          <div className='text-gray-500 text-black'>Joined {userInfo?.createdAt.split('-')[0]}</div>
 
+          {/* <UserProfileFollowers /> */}
+          {/* <UserProfileFollowing /> */}
+        </div>
+
+        {/*Yung edit button*/}
         {userInfo?.username === authUser?.username ? <div>
           <label htmlFor="my_modal_7" className="btn w-[100%] h-[40px] rounded-lg border-gray-300 border-[1.5px] mt-[40px] bg-white">Edit</label>
 
@@ -272,15 +306,23 @@ const UserProfile = () => {
           </div>
         </div> : ''}
 
-        {/* Dropdown for more options */}
+        {/* Dropdown for more options MESSAGE/FOLLOWS */}
         {username === authUser.username ? '' :
+
           <div className='w-[100%] h-[6%] flex items-center justify-end'>
-            <div className="dropdown dropdown-bottom">
+
+            <div className=' flex w-[100%]'>
+
+              <button className={authUser?.following.includes(userInfo?._id) ? "btn btn-active bg-black text-white" : "btn btn-outline"} onClick={() => followFunction()}>{(authUser?.following.includes(userInfo?._id) ? "Unfollow" : "Follow")}</button>
+
+            </div>
+
+            <div className="dropdown dropdown-left dropdown-bottom">
               <div tabIndex={0} role="button" className="btn bg-black text-white m-1">More</div>
               <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm">
                 <li className='border border-1 border-black rounded-xl'>
 
-                  <Link className='bg-white text-black' to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
+                  <Link className='bg-blue-300 text-black font-bold' to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
                     Send Message
                   </Link>
 
@@ -291,18 +333,17 @@ const UserProfile = () => {
             </div>
           </div>
         }
-        {/*Dropdown End*/}
+        {/*Dropdown End MESSAGE*/}
 
 
         {/* For future use */}
         <div className='mt-[5%] w-[100%] h-[55%] overflow-y-scroll'>
 
-
           <GetUserPost username={username} />
         </div>
 
       </div>
-    </div>
+    </div >
   )
 }
 
