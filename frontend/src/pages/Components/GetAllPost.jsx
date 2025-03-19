@@ -6,9 +6,10 @@ import { format } from 'timeago.js'
 
 import { useMutation, useQuery } from 'react-query'
 
-
+import useMessageStore from '../../store/useMessageStore.js'
 
 const GetAllPost = () => {
+    const { onlineUsers } = useMessageStore()
 
     const { data: authUser } = useQuery(['authUser']) // get the authenticated user
 
@@ -70,13 +71,22 @@ const GetAllPost = () => {
 
                 <div key={post._id} className="border-b-2 border-gray-300 w-full flex items-stretch justify-between relative">
                     {/* Avatar */}
-                    <div className="flex items-start pt-4 justify-center  p-3">
-                        <div className="avatar ">
-                            <div className="w-10 rounded-full">
-                                <img src={post.user.profilePicture === "" ? './assets/common/pfp.jpg' : post.user.profilePicture} />
+                    {onlineUsers.includes(post?.user?._id) ?
+                        <div className="flex items-start pt-4 justify-center  p-3">
+                            <div className="avatar">
+                                <div className="ring-green-500 ring-offset-base-100 w-10 rounded-full ring-[1.5px] ring-offset-2">
+                                    <img src={post.user.profilePicture === "" ? './assets/common/pfp.jpg' : post.user.profilePicture} />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        : <div className="flex items-start pt-4 justify-center  p-3">
+                            <div className="avatar avatar">
+                                <div className="w-10 rounded-full">
+                                    <img src={post.user.profilePicture === "" ? './assets/common/pfp.jpg' : post.user.profilePicture} />
+                                </div>
+                            </div>
+                        </div>}
+
 
                     {/* Content */}
                     <div className="flex-1  p-2">

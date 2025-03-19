@@ -1,9 +1,10 @@
 import { create } from 'zustand'
 import { io } from 'socket.io-client'
 
-const socketUrl = import.meta.env.VITE_BACKEND_URI || 'http://localhost:3000' 
+const socketUrl = import.meta.env.VITE_BACKEND_URI || 'http://localhost:3000'
 
 const useMessageStore = create((set, get) => ({
+    onlineUsers: [],
 
     currentUser: null,
     setCurrentUser: (user) => (set({ currentUser: user })),
@@ -16,7 +17,7 @@ const useMessageStore = create((set, get) => ({
     setSelectedUser: (name) => {
         set({ selectedUser: name })
     },
-    
+
     messageConnector: async () => {
         const { socket, messages } = get()
         const selectedUserId = get().selectedUser?._id
@@ -63,7 +64,7 @@ const useMessageStore = create((set, get) => ({
         const { messages } = get()
         console.log(socketUrl)
         const selectedUserId = get().selectedUser._id
-        
+
         try {
             let res = await fetch(`${import.meta.env.VITE_BACKEND_URI}/api/message/sendMessage/${selectedUserId}`, {
                 method: 'POST',
@@ -89,7 +90,7 @@ const useMessageStore = create((set, get) => ({
 
     connectSocket: async () => {
         const { currentUser, messageConnector } = get()
-      
+
 
         if (currentUser !== null) {
             const socket = io(socketUrl, {
@@ -100,6 +101,10 @@ const useMessageStore = create((set, get) => ({
 
             socket.connect()
             set({ socket: socket })
+
+            socket.on('getOnlineUsers', (users) => {
+                set({ onlineUsers: users })
+            })
             messageConnector()
         }
 

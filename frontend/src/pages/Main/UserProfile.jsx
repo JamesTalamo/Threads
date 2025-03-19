@@ -172,7 +172,7 @@ const UserProfile = () => {
 
         {/*Profile picture in here*/}
         <div className='text-gray-500 py-[20px] text-black'>Bio : {userInfo?.bio === "" ? <span>This user has not provided any bio.</span> : userInfo?.bio}</div>
-        
+
         <div className='flex gap-[15px] '>
           <div className='text-gray-500 text-black'>Joined {userInfo?.createdAt.split('-')[0]}</div>
 
@@ -316,24 +316,16 @@ const UserProfile = () => {
 
             <div className=' flex w-[100%]'>
 
-              <button className={authUser?.following.includes(userInfo?._id) ? "btn btn-active bg-black text-white" : "btn btn-outline"} onClick={() => followFunction()}>{(authUser?.following.includes(userInfo?._id) ? "Unfollow" : "Follow")}</button>
+              <button className={authUser?.following.includes(userInfo?._id) ? "btn btn-active bg-black text-white h-[30px] min-h-[30px]" : "btn btn-outline h-[30px] min-h-[30px]"} onClick={() => followFunction()}>{(authUser?.following.includes(userInfo?._id) ? "Unfollow" : "Follow")}</button>
 
             </div>
 
-            <div className="dropdown dropdown-left dropdown-bottom">
-              <div tabIndex={0} role="button" className="btn bg-black text-white m-1">More</div>
-              <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-50 w-52 p-2 shadow-sm">
-                <li className='border border-1 border-black rounded-xl'>
-
-                  <Link className='bg-blue-300 text-black font-bold' to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
-                    Send Message
-                  </Link>
-
-
-                </li>
-
-              </ul>
+            <div className="btn btn-active bg-black text-white h-[30px] min-h-[30px]">
+              <Link className="text-white font-bold" to={`/message/${username}`} onClick={() => setSelectedUser(userInfo)}>
+                Send Message
+              </Link>
             </div>
+
           </div>
         }
         {/*Dropdown End MESSAGE*/}
