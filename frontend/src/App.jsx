@@ -62,7 +62,7 @@ function App() {
     <div className='w-screen h-dvh flex justify-center items-end relative'>
 
       {authUser && <Sidebar />}
-      <Toaster position="bottom-center" />
+      <Toaster position="top-right" />
       <Routes>
         <Route path='/' element={authUser ? <MainPage /> : <Navigate to='/login' />} />
 

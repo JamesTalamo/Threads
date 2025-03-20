@@ -31,7 +31,7 @@ export const sendMessage = async (req, res) => {
         receiverId: receiverId,
         text: text
     })
-    await newMessage.save()
+    // await newMessage.save()
 
     const populateNewMessage = await newMessage.populate([
         { path: "senderId", select: "profilePicture username" },
@@ -39,10 +39,10 @@ export const sendMessage = async (req, res) => {
     ])
 
     const receiverSocketId = getReceiverSocketId(receiverId);
-    
+
     if (receiverSocketId) {
-        console.log('emit')
         io.to(receiverSocketId).emit("newMessage", populateNewMessage);
+        io.to(receiverSocketId).emit("notification", { username: req.user.username, message: newMessage })
     }
     res.status(201).json(populateNewMessage)
 

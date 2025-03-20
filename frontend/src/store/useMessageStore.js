@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { io } from 'socket.io-client'
+import { toast } from 'react-hot-toast'
 
 const socketUrl = import.meta.env.VITE_BACKEND_URI || 'http://localhost:3000'
 
@@ -105,6 +106,26 @@ const useMessageStore = create((set, get) => ({
             socket.on('getOnlineUsers', (users) => {
                 set({ onlineUsers: users })
             })
+
+            socket.on('notification', (message) => {
+
+                const data = { username: message?.username, text: message?.message?.text }
+                console.log(data)
+
+                toast.success(`NEW MESSAGE!\n ${data.username} : ${data.text}`, {
+                    style: {
+                        background: "#3b82f6", // Blue background
+                        color: "#fff", // White text
+                        fontWeight: "bold",
+                        padding: "12px 16px",
+                        borderRadius: "8px",
+                        display: "flex",
+                        alignItems: "center",
+                    },
+                    icon: null
+                });
+            })
+
             messageConnector()
         }
 
