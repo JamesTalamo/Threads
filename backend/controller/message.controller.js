@@ -31,7 +31,7 @@ export const sendMessage = async (req, res) => {
         receiverId: receiverId,
         text: text
     })
-    // await newMessage.save()
+    await newMessage.save()
 
     const populateNewMessage = await newMessage.populate([
         { path: "senderId", select: "profilePicture username" },
