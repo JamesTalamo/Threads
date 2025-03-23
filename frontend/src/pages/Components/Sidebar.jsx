@@ -67,18 +67,18 @@ const Sidebar = () => {
                         <GoHome size='30' color='black' />
                     </Link>
 
-                    <div>
+                    {/* <div>
                         <IoIosSearch size='30' color='black' />
-                    </div>
+                    </div> */}
 
                     <div>
 
                         <PostAreaComponent logo={<IoIosAdd size='35' color='black' className='white' />} />
                     </div>
 
-                    <div>
+                    {/* <div>
                         <IoIosHeartEmpty size='30' color='black' />
-                    </div>
+                    </div> */}
 
                     <Link className='hover:cursor-pointer'
                         to={`/profile/${authUser?.username}`}
@@ -111,18 +111,18 @@ const Sidebar = () => {
                         <GoHome size='30' color='black' />
                     </Link>
 
-                    <div>
+                    {/* <div>
                         <IoIosSearch size='30' color='black' />
-                    </div>
+                    </div> */}
 
                     <div>
                         <PostAreaSmallScreen logo={<IoIosAdd size='35' color='black' />} />
 
                     </div>
 
-                    <div>
+                    {/* <div>
                         <IoIosHeartEmpty size='30' color='black' />
-                    </div>
+                    </div> */}
 
                     <Link className='hover:cursor-pointer'
                         to={`/profile/${authUser?.username}`}
