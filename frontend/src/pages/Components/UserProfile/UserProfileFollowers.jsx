@@ -20,19 +20,28 @@ const UserProfileFollowers = ({ userInfo }) => {
 
 
           {userInfo?.followers?.map((user, index) => (
-            <Link
-              className='w-[100%] h-[80px] border-b border-1 border-gray-300 px-[15px] py-[1%] cursor-pointer flex items-center justify-start'
+            <div
+              className='w-[100%] h-[80px] border-b border-1 border-gray-300 px-[15px] py-[1%]  flex items-center justify-between'
               key={index}
-              to={`/profile/${user?.username}`}
+
             >
-              <div className="avatar">
-                <div className="w-10 rounded-full">
-                  <img src={user.profilePicture ? user.profilePicture : '/assets/common/noProfile.png'} />
+              <div className='flex items-center justify-center'>
+                <div className="avatar">
+                  <div className="w-10 rounded-full">
+                    <img src={user.profilePicture ? user.profilePicture : '/assets/common/noProfile.png'} />
+                  </div>
                 </div>
+
+                <div className='pl-[5%] font-bold text-black'>{user?.username}</div>
               </div>
 
-              <div className='pl-[5%] font-bold text-black'>{user?.username}</div>
-            </Link>
+              <Link
+                className="badge badge-outline badge-default inline cursor-pointer"
+                to={`/message/${user?.username}`}>
+                Message
+              </Link>
+
+            </div>
           ))}
 
 
