@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Link } from 'react-router-dom'
 
-const UserProfileFollowers = ({ userInfo }) => {
+const UserProfileFollowing = ({ userInfo }) => {
 
     return (
         <div>
@@ -19,8 +19,9 @@ const UserProfileFollowers = ({ userInfo }) => {
 
 
                     {userInfo?.following?.map((user, index) => (
-                        <Link
+                        <div
                             className='w-[100%] h-[80px] border-b border-1 border-gray-300 px-[15px] py-[1%] flex items-center justify-between'
+
                             key={index}
                         >
 
@@ -41,7 +42,7 @@ const UserProfileFollowers = ({ userInfo }) => {
                                 to={`/message/${user?.username}`}>
                                 Message
                             </Link>
-                        </Link>
+                        </div>
                     ))}
 
 
@@ -51,4 +52,4 @@ const UserProfileFollowers = ({ userInfo }) => {
     )
 }
 
-export default UserProfileFollowers
+export default UserProfileFollowing
